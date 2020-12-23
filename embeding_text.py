@@ -15,7 +15,7 @@ def CreateMyChank(text):
     add_chank += binascii.crc32(add_chank).to_bytes(4,"big")
     return add_chank
 
-def EmbeddingTextToImage(data,text):
+def EmbeddingTextToImage(data,text, output_name):
     png_bainary = b""
     #add header
     png_bainary = struct.unpack_from(">8s", data, 0)[0]
@@ -40,7 +40,7 @@ def EmbeddingTextToImage(data,text):
     png_bainary += CreateMyChank(text)
     png_bainary += struct.unpack_from(">12s", data, offset)[0]
 
-    with open("image_from_str2.png","wb") as f:
+    with open(f"{output_name}","wb") as f:
         f.write(png_bainary)
     print("embbeding message was successfully!!")
 
