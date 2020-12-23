@@ -1,5 +1,8 @@
 ## EmbeddingTextInImage
 
+
+This repository for embedding any text or zip files in images (.png)
+<br>
 ### Prerequisites
 - python 3.7
 
