@@ -4,18 +4,22 @@ import struct
 import binascii
 from PIL import Image
 import argparse
-
-
-def CreateMyChank(text):
+def CreateMyChank(text,isText):
     add_chank = b""
-    length = len(text.encode()).to_bytes(4,"big")
+
+    if isText == True:
+        emb_text = text.encode()
+    else:
+        emb_text = text
+
+    length = len(emb_text).to_bytes(4,"big")
     type = b"MOMO" # Any name
-    emb_text = text.encode()
+
     add_chank += length+type+emb_text
     add_chank += binascii.crc32(add_chank).to_bytes(4,"big")
     return add_chank
 
-def EmbeddingTextToImage(data,text, output_name):
+def EmbeddingTextToImage(data,text, output_name,isText):
     png_bainary = b""
     #add header
     png_bainary = struct.unpack_from(">8s", data, 0)[0]
@@ -37,7 +41,7 @@ def EmbeddingTextToImage(data,text, output_name):
         png_bainary += struct.unpack_from(f">{length[0]+12}s", data, offset)[0]
         offset += length[0]+12
 
-    png_bainary += CreateMyChank(text)
+    png_bainary += CreateMyChank(text,isText)
     png_bainary += struct.unpack_from(">12s", data, offset)[0]
 
     with open(f"{output_name}","wb") as f:
@@ -46,13 +50,17 @@ def EmbeddingTextToImage(data,text, output_name):
 
 def main():
     arg = argparse.ArgumentParser()
-    arg.add_argument("-t","--input_text",default = "テスト")
-    arg.add_argument("-img","--input_image",default = "image.png")
-    arg.add_argument("-n","--output_name",default= "embed_text_image.png")
+    arg.add_argument("--isText",default = True)
+    arg.add_argument("-in","--input_image",default = "image.png")
+    arg.add_argument("-on", "--output_image",default= "embed_text_image.png")
     args = arg.parse_args()
-    print(args)
+
+    if args.isText == True:
+        input_text = "test"
+    else:
+        input_text = open("input.zip","rb").read()
 
     data = open(args.input_image, "rb").read()
-    EmbeddingTextToImage(data,args.input_text,args.output_name)   
+    EmbeddingTextToImage(data,input_text,args.output_name,args.isText)   
 if __name__ == "__main__":
     main()

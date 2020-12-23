@@ -5,14 +5,14 @@
 
 ### Usage
 
-To embed text in a png image, set arguments and do the following:
+To embed text or zipfile in a png image, set arguments and do the following:
 ```bash
-python embeding_text.py -t <text> -img <image.png> -n <output.png>
+python embeding_text.py --isText <1 or 0> -in <image.png> -on <output.png>
 ```
 
 <br>
-If you want to find the text embedded in the image, do the following:
+If you want to find the text or zipfile embedded in the image, do the following:
 
 ```bash
-python embeding_text.py -img <image.png>
+python embeding_text.py --isText <1 or 0> -in <image.png>
 ```
