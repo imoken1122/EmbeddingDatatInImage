@@ -7,23 +7,24 @@ def SearchChank(data,isText):
         ctype = struct.unpack_from(">4s", data, offset + 4)
         if ctype[0] == b"MOMO":
             length = struct.unpack_from(">I", data, offset) 
-            if isText == True:
-                EmbedingTextAnalyser(data,length,offset)       
+            if isText:
+                EmbedingTextExtractor(data,length,offset)       
             else:
-                EmbeddingZipReader( data, length, offset)
+                EmbeddingFileExtractor( data, length, offset)
+
         elif ctype[0] == b"IEND": 
             print("find IEND tag")
             break
        
         offset += length[0]+12
 
-def EmbedingTextAnalyser(data,length, offset):
+def EmbedingTextExtractor(data,length, offset):
 
     print("A secret message was found !! ")
     print(struct.unpack_from(f">{length[0]}s", data, offset+8)[0].decode())
 
      
-def EmbeddingZipReader(data,length,offset):
+def EmbeddingFileExtractor(data,length,offset):
     print("zipfile was found !!")
     zip_binary = struct.unpack_from(f">{length[0]}s", data, offset+8)[0] 
     with open("output.zip", "wb") as f:
@@ -61,11 +62,11 @@ def ImageInfoAnalyser(data):
 
 def main():
     arg = argparse.ArgumentParser()
-    arg.add_argument("--isText",default = True)
+    arg.add_argument("-t", action='store_true')
     arg.add_argument("-in","--input_image",default = "image.png")
     args = arg.parse_args()
 
     data = open(args.input_image, "rb").read()
-    SearchChank(data,args.isText)
+    SearchChank(data,args.t)
 if __name__ == "__main__":
     main()
