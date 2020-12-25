@@ -1,9 +1,9 @@
 # EmbeddingTextInImage
 
 
-This repository for embedding any text or files(.zip,.exe ...) in images (.png) binary.   
+This repository for embedding any text or files(.zip,.exe ...) in images (.png) binary. ( Currently supported arbitrary chunks are images that contain only IDAT chunks)
 <br>
-このレポジトリのコードは画像(.png)のバイナリに任意のテキストやファイルを埋め込めます.
+このレポジトリのコードは画像(.png)のバイナリに任意のテキストやファイルを埋め込めます. (現在対応している任意チャンクはIDATチャンクのみが含まれてる画像です)
 
 <br>
 
